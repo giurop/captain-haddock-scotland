@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Amatic+SC|Arizonia|Bangers|Cinzel|IM+Fell+English+SC|Indie+Flower|Kristi|Permanent+Marker|Pompiere|Reenie+Beanie|Rock+Salt|Rye|Sedgwick+Ave|Shadows+Into+Light+Two&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'IM Fell English SC';
+}
+
+.h1 {
+  font-family: 'Permanent Marker';
+}
+
+#captain-haddock {
+  width: 40%;
+}
