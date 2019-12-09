@@ -1,3 +1,5 @@
+let enemiesArray = [];
+
 const generalSetting = {
   canvas: document.createElement('canvas'),
   frames: 0,
@@ -49,9 +51,6 @@ class Captain {
 
   newPos() {
     this.x += this.walk;
-    console.log(this.x);
-    console.log(this.walk);
-    console.log('oigiu');
     this.y += this.turn;
   }
 
@@ -75,15 +74,64 @@ class Captain {
 }
 
 class Enemies {
-  constructor(x, y, speedX) {
+  constructor(x, y, speedX, resize) {
     this.x = x;
     this.y = y;
     this.speedX = speedX;
+    this.resize = resize;
+  }
+
+  update() {
+    let ctx = generalSetting.context;
+    let enemyImg = new Image();
+    enemyImg.src = './images/enemies.png';
+    enemyImg.onload = () => {
+      ctx.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
+    }
+
   }
 }
 
 // creating player
 let captain = new Captain(0, 380);
+
+function updateEnemies() {
+  console.log('hi from inside the enemies');
+  for (let i = 0; i < enemiesArray.length; i += 1) {
+    enemiesArray[i].x -= enemiesArray[i].speedX;
+    enemiesArray[i].update();
+  }
+
+  generalSetting.frames += 1;
+  if (generalSetting.frames % 90 === 0) {
+    console.log('hi from the if inside the enemies');
+    // change here the speed of the enemies being created
+    let speed1 = 15;
+    let speed2 = 10;
+    let speed3 = 20;
+
+    let x = generalSetting.canvas.width;
+
+    let minY1 = 330;
+    let maxY1 = 370;
+    let minY2 = 370;
+    let maxY2 = 410;
+    let minY3 = 410;
+    let maxY3 = 450;
+
+    let enemyYPos1 = Math.floor(Math.random() * (maxY1 - minY1 + 1) + minY1);
+    let enemyYPos2 = Math.floor(Math.random() * (maxY2 - minY2 + 1) + minY2);
+    let enemyYPos3 = Math.floor(Math.random() * (maxY3 - minY3 + 1) + minY3);
+    console.log(enemyYPos1);
+    console.log(enemyYPos2);
+    console.log(enemyYPos3);
+
+    enemiesArray.push(new Enemies(x, enemyYPos1, speed1, 0.6));
+    enemiesArray.push(new Enemies(x, enemyYPos2, speed2, 0.8));
+    enemiesArray.push(new Enemies(x, enemyYPos3, speed3, 0.9));
+    console.log(enemiesArray);
+  }
+}
 
 function startGame() {
   generalSetting.start();
@@ -99,9 +147,11 @@ function updateGame() {
   setTintinAndSnowy();
   generalSetting.score();
   // let captain = new Captain(0, 380);
+  updateEnemies();
   captain.newPos();
   captain.update1();
 }
+
 
 document.getElementById('start-button').onclick = function () {
   startGame();
@@ -112,7 +162,7 @@ document.onkeydown = function (key) {
   switch (key.keyCode) {
     // left
     case 37:
-      if (captain.x >= 0) {
+      if (captain.x >= 20) {
         captain.walk -= steps;
       } else {
         captain.walk = 0;
