@@ -16,3 +16,9 @@ body {
 #captain-haddock {
   width: 40%;
 }
+
+canvas {
+  background-image: url('./images/edinburghcastlelow.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
