@@ -14,11 +14,26 @@ body {
 }
 
 #captain-haddock {
-  width: 40%;
+  /* width: 20%; */
 }
 
 canvas {
   background-image: url('./images/edinburghcastlelow.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+#text-box {
+  background-color: rgba(242, 236, 218, 0.7);
+  border-radius: 20px;
+}
+
+#game-over-page {
+  background-color:gray;
+  background-position: center center;
+  display: none;
+}
+
+#game-over {
+  font-size: 90px;
 }

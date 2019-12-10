@@ -12,30 +12,45 @@
 </head>
 
 <body>
-  <div id="html-page" class="view vw-100 vh-100" style="background-image: url('./images/TintinScotland.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+  <div id="intro-page" class="view vw-100 vh-100"
+    style="background-image: url('./images/TintinScotland.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
     <div class="game-intro container">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-8">
           <h1 class="h1 display-4">
-            <small class="text-muted">Captain Haddock Adventures in</small><br>
+            <small class="text-muted mt-5">Captain Haddock <br>Adventures in</small><br>
             Scotland<br>
           </h1>
         </div>
-        <div class="col-md-2">
-          <img id="captain-haddock" class="img-fluid float-left" src="./images/captainhaddocknew.png" alt="Captain Haddock">
-        </div>
-        <div class="game-info col-md-5">
-          <p>It all started when they received a letter from Her Majesty the Queen to report that her precious crown has
-            been stolen. After a lot of searching and fighting, they finally found it in a remote island across the
-            Scottish coast, and now they are heading back to the castle to hand it in person to her. But, as usual, it
-            won't be an easy task...</p>
-            <button id="start-button">Start Game</button>
+        <!-- <div class="col-md-2"> -->
+        <!-- </div> -->
+        <div id="text-box" class="game-info col-md-4 mt-5 p-4">
+          <div class="d-flex flex-column align-items-center">
+            <!-- <div> -->
+            <img id="captain-haddock" class="img-fluid" src="./images/captainhaddocknew.png" alt="Captain Haddock">
+            <p>It all started when they received a letter from Her Majesty the Queen to report that her precious crown
+              has been stolen. After a lot of searching and fighting, they finally found it in a remote island across
+              the Scottish coast, and now they are heading back to the castle to hand it in person to her. But, as
+              usual, it won't be an easy task...</p>
+            <!-- </div> -->
+            <button id="start-button" class="btn btn-secondary btn-lg">Start Game</button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="game-over-page" class="view vw-100 vh-100 align-middle">
+    <div class="d-flex flex-column align-items-center justify-content-center view vh-100">
+      <p class="text-center font-weight-bold" id="game-over">Game Over</p>
+      <button id="restart-button" class="btn btn-secondary btn-lg">Try Again</button>
+    </div>
   </div>
   <div class="game-board"></div>
+  <script src="./captain.js"></script>
+  <script src="./enemies.js"></script>
+  <script src="./whiskies.js"></script>
   <script src="./script.js"></script>
+  <script src="./tintinsnowy.js"></script>
 </body>
 
 </html>

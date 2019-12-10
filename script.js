@@ -1,8 +1,8 @@
 // creating array to store enemies info
-let enemiesArray = [];
+const enemiesArray = [];
 
 // creating array to store whiskies
-let whiskiesArray = [];
+const whiskiesArray = [];
 
 // object setting the main settings of the game
 const generalSetting = {
@@ -34,209 +34,6 @@ function clearBoard() {
   let backgroundWidth = generalSetting.canvas.width;
 
   ctx.clearRect(0, 0, backgroundWidth, backgroundHeight);
-}
-
-// object tintin and snowy - fixed elements
-const setTintinAndSnowy = {
-  x: 0,
-  y: generalSetting.canvas.height * 0.6,
-  update() {
-    const ctx = generalSetting.context;
-    let tintinAndSnowyPic = new Image();
-    tintinAndSnowyPic.src = './images/tintinsnowy.png';
-    tintinAndSnowyPic.onload = () => {
-      ctx.drawImage(tintinAndSnowyPic, this.x, generalSetting.canvas.height * 0.6, tintinAndSnowyPic.width * 0.2, tintinAndSnowyPic.height * 0.2);
-    }
-    this.width = tintinAndSnowyPic.width * 0.2;
-    this.height = tintinAndSnowyPic.height * 0.2;
-  },
-  right() {
-    return this.x + this.width;
-  },
-  crashWith(enemy) {
-    return !(
-      this.right() < enemy.left()
-    )
-  }
-}
-
-// object constructor based on the Captain
-class Captain {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.walk = 0;
-    this.turn = 0;
-    // this.lifes = 3;
-    this.hitPoint = 1;
-    this.isDrunk = false;
-    // this.isDrunk = true;
-    this.closenessToEnemy = 0.5;
-  }
-
-  newPos() {
-    this.x += this.walk;
-    this.y += this.turn;
-  }
-
-  update1() {
-    let ctx = generalSetting.context;
-    let captainImage1 = new Image();
-    if (this.isDrunk) {
-      captainImage1.src = './images/haddockwalkingdrunk.png';
-    } else {
-      captainImage1.src = './images/captainhaddockwalking2.png';
-    }
-    captainImage1.onload = () => {
-      ctx.drawImage(captainImage1, this.x, this.y, captainImage1.width * 0.9, captainImage1.height * 0.9);
-    }
-    this.width = captainImage1.width;
-    this.height = captainImage1.height;
-  }
-
-  top() {
-    return this.y;
-  }
-
-  right() {
-    return this.x + this.width;
-  }
-
-  bottom() {
-    return this.y + this.height;
-  }
-
-  left() {
-    return this.x;
-  }
-
-  // getDrunk() {
-  //   if (this.isDrunk) {
-  //     this.hitPoint += 2;
-      // or should I write true instead
-      // this.isDrunk = !this.isDrunk;
-    }
-  }
-
-  // drunkAttack() {
-  //   if(this.isDrunk) {
-  //     let ctx = generalSetting.context;
-  //     let captainAttackImage = new Image();
-  //     captainAttackImage.src = './images/haddockwalkingdrunk.png';
-  //     captainAttackImage.onload = () => {
-  //       ctx.drawImage(captainAttackImage, this.x, this.y, captainAttackImage.width * 0.9, captainAttackImage.height * 0.9);
-  //     }
-  //     this.width = captainAttackImage.width;
-  //     this.height = captainAttackImage.height;
-  //   }
-  // }
-
-  // checkLife() {
-
-  // }
-
-  // fightWith(enemy) {
-  //   return !(
-  //     this.top() > enemy.bottom() ||
-  //     this.right() < enemy.left() ||
-  //     this.bottom() < enemy.top() ||
-  //     this.left() > enemy.right()
-  //   )
-  // }
-  
-  fightWith(enemy) {
-    return !(
-      enemy.top() - this.top() > this.closenessToEnemy * this.height ||
-      this.bottom() - enemy.bottom() > this.closenessToEnemy * this.height ||
-      enemy.left() - this.left() > this.closenessToEnemy * this.width ||
-      this.right() - enemy.right() > this.closenessToEnemy * this.width
-    )
-  }
-
-
-  // update2() {
-  //   let ctx = generalSetting.context;
-  //   let captainImage2 = new Image();
-  //   captainImage2.src = './images/captainhaddockwalking3.png';
-  //   captainImage2.onload = () => {
-  //     ctx.drawImage(captainImage2, this.x, this.y, captainImage1.width * 0.13, captainImage1.height * 0.13);
-  //   }
-  // }
-}
-
-// object constructor based on the enemies
-class Enemies {
-  constructor(x, y, speedX, resize) {
-    this.x = x;
-    this.y = y;
-    this.speedX = speedX;
-    this.resize = resize;
-    this.life = 3;
-  }
-
-  update() {
-    let ctx = generalSetting.context;
-    let enemyImg = new Image();
-    enemyImg.src = './images/enemies.png';
-    enemyImg.onload = () => {
-      ctx.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
-    }
-    this.width = enemyImg.width * this.resize;
-    this.height = enemyImg.height * this.resize;
-  }
-
-  top() {
-    return this.y;
-  }
-
-  right() {
-    return this.x + this.width;
-  }
-
-  bottom() {
-    return this.y + this.height;
-  }
-
-  left() {
-    return this.x;
-  }
-}
-
-// object constructor for whisky
-class Whiskies {
-  constructor(x, y, speedX, resize) {
-    this.x = x;
-    this.y = y;
-    this.speedX = speedX;
-    this.resize = resize;
-  }
-
-  update() {
-    let ctx = generalSetting.context;
-    let whiskyImg = new Image();
-    whiskyImg.src = './images/whisky.png';
-    whiskyImg.onload = () => {
-      ctx.drawImage(whiskyImg, this.x, this.y, whiskyImg.width * this.resize, whiskyImg.height * this.resize);
-    }
-    this.width = whiskyImg.width * this.resize;
-    this.height = whiskyImg.height * this.resize;
-  }
-
-  top() {
-    return this.y;
-  }
-
-  right() {
-    return this.x + this.width;
-  }
-
-  bottom() {
-    return this.y + this.height;
-  }
-
-  left() {
-    return this.x;
-  }
 }
 
 // creating player
@@ -282,8 +79,7 @@ function updateWhiskies() {
     whiskiesArray[i].update();
   }
 
-  let whiskiesPosition = [
-    {
+  let whiskiesPosition = [{
       speed: 15,
       minY: 350,
       maxY: 380,
@@ -344,8 +140,23 @@ function checkDeadEnemies() {
 }
 
 // function to let Haddock happy and drink a whisky bottle by himself
-function getDrunk() {
-  whiskiesArray
+function checkIfDrunk() {
+  whiskiesArray.map((bottle) => {
+    if (captain.drinkWhisky(bottle)) {
+      captain.drunkPeriod();
+      bottle.isEmpty = true;
+    }
+    return bottle;
+  });
+  checkEmptyBottle();
+}
+
+function checkEmptyBottle() {
+  for (let i = 0; i < whiskiesArray.length; i += 1) {
+    if (whiskiesArray[i].isEmpty) {
+      whiskiesArray.splice(i, 1);
+    }
+  }
 }
 
 // function to check if the enemies got to Tintin and Snowy
@@ -356,6 +167,9 @@ function checkGameOver() {
 
   if (crashed) {
     generalSetting.stop();
+    let gameOverPage = document.getElementById('game-over-page');
+    gameOverPage.style.display = 'initial';
+    generalSetting.canvas.style.display = 'none';
   }
 }
 
@@ -368,9 +182,23 @@ function startGame() {
   generalSetting.start();
   clearBoard();
   setTintinAndSnowy.update();
-  captain.update1();
-  let htmlPage = document.getElementById('html-page');
-  htmlPage.style.display = "none";
+  captain.update();
+  let introPage = document.getElementById('intro-page');
+  introPage.style.display = "none";
+  let gameOverPage = document.getElementById('game-over-page');
+  gameOverPage.style.display = 'none';
+}
+
+// function to reset the game and get it restarted
+function restartGame() {
+  generalSetting.canvas.style.display = 'initial';
+  clearBoard();
+  setTintinAndSnowy.update();
+  captain.update();
+  let introPage = document.getElementById('intro-page');
+  introPage.style.display = "none";
+  let gameOverPage = document.getElementById('game-over-page');
+  gameOverPage.style.display = 'none';
 }
 
 // function to update everything
@@ -379,10 +207,11 @@ function updateGame() {
   setTintinAndSnowy.update();
   generalSetting.score();
   checkDeadEnemies();
+  checkIfDrunk();
   updateWhiskies();
   updateEnemies();
   captain.newPos();
-  captain.update1();
+  captain.update();
   // captain.update2();
   checkGameOver();
 }
@@ -403,6 +232,7 @@ document.onkeydown = function (key) {
       } else {
         captain.walk = 0;
       }
+      captain.alternateImage();
       break;
       // top
     case 38:
@@ -411,6 +241,7 @@ document.onkeydown = function (key) {
       } else {
         captain.turn = 0;
       }
+      captain.alternateImage();
       break;
       // right
     case 39:
@@ -419,6 +250,7 @@ document.onkeydown = function (key) {
       } else {
         captain.walk = 0;
       }
+      captain.alternateImage();
       break;
       // down
     case 40:
@@ -427,21 +259,27 @@ document.onkeydown = function (key) {
       } else {
         captain.turn = 0;
       }
+      captain.alternateImage();
       break;
-      case 32:
-        if (captain.isDrunk) {
+      // case 32:
+      // if (captain.isDrunk) {
 
-        } else {
-          fightEnemies();
-        }
-        break;
+      // } else {
+      //   fightEnemies();
+      // }
+      // break;
     default:
       break;
   }
-}
+};
 
 // when you let the key, stop what you were doing
 document.onkeyup = function (key) {
   captain.turn = 0;
   captain.walk = 0;
+};
+
+// when you click on the restart button, restart the game and reset the board
+document.getElementById('restart-button').onclick = function () {
+  restartGame();
 }
