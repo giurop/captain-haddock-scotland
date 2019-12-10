@@ -1,5 +1,7 @@
+// creating array to store enemies info
 let enemiesArray = [];
 
+// object setting the main settings of the game
 const generalSetting = {
   canvas: document.createElement('canvas'),
   frames: 0,
@@ -21,6 +23,7 @@ const generalSetting = {
   }
 }
 
+// function to clean the board between transitions
 function clearBoard() {
   const ctx = generalSetting.context;
 
@@ -30,23 +33,40 @@ function clearBoard() {
   ctx.clearRect(0, 0, backgroundWidth, backgroundHeight);
 }
 
-function setTintinAndSnowy() {
-  const ctx = generalSetting.context;
-
-  let tintinAndSnowyPic = new Image();
-  tintinAndSnowyPic.src = './images/tintinsnowy.png';
-  tintinAndSnowyPic.onload = () => {
-    // ctx.drawImage(tintinAndSnowyPic, 0, 400, tintinAndSnowyPic.width * 0.2, tintinAndSnowyPic.height * 0.2);
-    ctx.drawImage(tintinAndSnowyPic, 0, generalSetting.canvas.height * 0.6, tintinAndSnowyPic.width * 0.2, tintinAndSnowyPic.height * 0.2);
+// object tintin and snowy - fixed elements
+const setTintinAndSnowy = {
+  x: 0,
+  y: generalSetting.canvas.height * 0.6,
+  update() {
+    const ctx = generalSetting.context;
+    let tintinAndSnowyPic = new Image();
+    tintinAndSnowyPic.src = './images/tintinsnowy.png';
+    tintinAndSnowyPic.onload = () => {
+      ctx.drawImage(tintinAndSnowyPic, this.x, generalSetting.canvas.height * 0.6, tintinAndSnowyPic.width * 0.2, tintinAndSnowyPic.height * 0.2);
+    }
+    this.width = tintinAndSnowyPic.width * 0.2;
+    this.height = tintinAndSnowyPic.height * 0.2;
+  },
+  right() {
+    return this.x + this.width;
+  },
+  crashWith(enemy) {
+    return !(
+      this.right() < enemy.left()
+    )
   }
 }
 
+// object constructor based on the Captain
 class Captain {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.walk = 0;
     this.turn = 0;
+    // this.lifes = 3;
+    this.hitPoint = 1;
+    this.isDrunk = false;
   }
 
   newPos() {
@@ -57,11 +77,53 @@ class Captain {
   update1() {
     let ctx = generalSetting.context;
     let captainImage1 = new Image();
-    captainImage1.src = './images/captainhaddockwalking2.png';
+    if (this.isDrunk) {
+      // add image of drunk captain
+    } else {
+      captainImage1.src = './images/captainhaddockwalking2.png';
+    }
     captainImage1.onload = () => {
       ctx.drawImage(captainImage1, this.x, this.y, captainImage1.width * 0.13, captainImage1.height * 0.13);
     }
+    this.width = captainImage1.width * 0.13;
+    this.height = captainImage1.height * 0.13;
   }
+
+  top() {
+    return this.y;
+  }
+
+  right() {
+    return this.x;
+  }
+
+  bottom() {
+    return this.y + this.height;
+  }
+
+  left() {
+    return this.x + this.width;
+  }
+
+  getDrunk() {
+    this.hitPoint += 2;
+    // or should I write true instead
+    this.isDrunk = !this.isDrunk;
+  }
+
+  // checkLife() {
+
+  // }
+
+  // fightWith(enemies) {
+  //   return !(
+  //     this.top() > enemies.bottom() ||
+  //     this.right() < enemies.left() ||
+  //     this.bottom() < enemies.top() ||
+  //     this.left() > enemies.right()
+  //   )
+  // }
+
 
   // update2() {
   //   let ctx = generalSetting.context;
@@ -73,12 +135,14 @@ class Captain {
   // }
 }
 
+// object constructor based on the enemies
 class Enemies {
   constructor(x, y, speedX, resize) {
     this.x = x;
     this.y = y;
     this.speedX = speedX;
     this.resize = resize;
+    this.life = 3;
   }
 
   update() {
@@ -88,15 +152,32 @@ class Enemies {
     enemyImg.onload = () => {
       ctx.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
     }
+    this.width = enemyImg.width * this.resize;
+    this.height = enemyImg.height * this.resize;
+  }
 
+  top() {
+    return this.y;
+  }
+
+  right() {
+    return this.x + this.width;
+  }
+
+  bottom() {
+    return this.y + this.height;
+  }
+
+  left() {
+    return this.x;
   }
 }
 
 // creating player
 let captain = new Captain(0, 380);
 
+// updating enemies' position
 function updateEnemies() {
-  console.log('hi from inside the enemies');
   for (let i = 0; i < enemiesArray.length; i += 1) {
     enemiesArray[i].x -= enemiesArray[i].speedX;
     enemiesArray[i].update();
@@ -104,7 +185,6 @@ function updateEnemies() {
 
   generalSetting.frames += 1;
   if (generalSetting.frames % 90 === 0) {
-    console.log('hi from the if inside the enemies');
     // change here the speed of the enemies being created
     let speed1 = 15;
     let speed2 = 10;
@@ -122,41 +202,71 @@ function updateEnemies() {
     let enemyYPos1 = Math.floor(Math.random() * (maxY1 - minY1 + 1) + minY1);
     let enemyYPos2 = Math.floor(Math.random() * (maxY2 - minY2 + 1) + minY2);
     let enemyYPos3 = Math.floor(Math.random() * (maxY3 - minY3 + 1) + minY3);
-    console.log(enemyYPos1);
-    console.log(enemyYPos2);
-    console.log(enemyYPos3);
 
     enemiesArray.push(new Enemies(x, enemyYPos1, speed1, 0.6));
     enemiesArray.push(new Enemies(x, enemyYPos2, speed2, 0.8));
     enemiesArray.push(new Enemies(x, enemyYPos3, speed3, 0.9));
-    console.log(enemiesArray);
   }
 }
 
+// function to fight the enemies
+// function fightEnemies() {
+
+// }
+
+// function to check if the enemy died and remove it from array
+function checkDeadEnemies() {
+  for (let i = 0; i < enemiesArray.length; i += 1) {
+    if (enemiesArray[i].life === 0) {
+      enemiesArray.splice(i, 1);
+    }
+  }
+}
+
+// function to check if the enemies got to Tintin and Snowy
+function checkGameOver() {
+  let crashed = enemiesArray.some(function (enemy) {
+    return setTintinAndSnowy.crashWith(enemy);
+  });
+
+  if (crashed) {
+    generalSetting.stop();
+  }
+}
+
+// function checkCaptainIsDrunk() {
+
+// }
+
+// function to set the game and get it started
 function startGame() {
   generalSetting.start();
   clearBoard();
-  setTintinAndSnowy();
-  // let captain = new Captain(0, 380);
+  setTintinAndSnowy.update();
   captain.update1();
-  // captain.update2();
+  let htmlPage = document.getElementById('html-page');
+  htmlPage.style.display = "none";
 }
 
+// function to update everything
 function updateGame() {
   clearBoard();
-  setTintinAndSnowy();
+  setTintinAndSnowy.update();
   generalSetting.score();
-  // let captain = new Captain(0, 380);
+  checkDeadEnemies();
   updateEnemies();
   captain.newPos();
   captain.update1();
+  // captain.update2();
+  checkGameOver();
 }
 
-
+// when you click on the start button, start the game and set the board
 document.getElementById('start-button').onclick = function () {
   startGame();
 }
 
+// when you press a key from the list, do something
 document.onkeydown = function (key) {
   let steps = 5;
   switch (key.keyCode) {
@@ -192,11 +302,15 @@ document.onkeydown = function (key) {
         captain.turn = 0;
       }
       break;
+      case 32:
+        fightEnemies();
+        break;
     default:
       break;
   }
 }
 
+// when you let the key, stop what you were doing
 document.onkeyup = function (key) {
   captain.turn = 0;
   captain.walk = 0;
