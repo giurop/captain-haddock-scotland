@@ -83,26 +83,26 @@ class Captain {
       captainImage1.src = './images/captainhaddockwalking2.png';
     }
     captainImage1.onload = () => {
-      ctx.drawImage(captainImage1, this.x, this.y, captainImage1.width * 0.13, captainImage1.height * 0.13);
+      ctx.drawImage(captainImage1, this.x, this.y, captainImage1.width * 0.9, captainImage1.height * 0.9);
     }
-    this.width = captainImage1.width * 0.13;
-    this.height = captainImage1.height * 0.13;
+    this.width = captainImage1.width;
+    this.height = captainImage1.height;
   }
 
   top() {
-    return this.y;
+    return this.y + (this.height * 0.5);
   }
 
   right() {
-    return this.x;
+    return this.x + (this.width * 0.5);
   }
 
   bottom() {
-    return this.y + this.height;
+    return this.y + (this.height * 0.5);
   }
 
   left() {
-    return this.x + this.width;
+    return this.x + (this.width * 0.5);
   }
 
   getDrunk() {
@@ -115,14 +115,14 @@ class Captain {
 
   // }
 
-  // fightWith(enemies) {
-  //   return !(
-  //     this.top() > enemies.bottom() ||
-  //     this.right() < enemies.left() ||
-  //     this.bottom() < enemies.top() ||
-  //     this.left() > enemies.right()
-  //   )
-  // }
+  fightWith(enemy) {
+    return !(
+      this.top() > enemy.bottom() ||
+      this.right() < enemy.left() ||
+      this.bottom() < enemy.top() ||
+      this.left() > enemy.right()
+    )
+  }
 
 
   // update2() {
@@ -174,7 +174,7 @@ class Enemies {
 }
 
 // creating player
-let captain = new Captain(0, 380);
+let captain = new Captain(100, 380);
 
 // updating enemies' position
 function updateEnemies() {
@@ -210,9 +210,16 @@ function updateEnemies() {
 }
 
 // function to fight the enemies
-// function fightEnemies() {
+function fightEnemies() {
+  enemiesArray.map((enemy) => {
+    if (captain.fightWith(enemy)) {
+      enemy.life -= 1;
+    }
+    return enemy;
+  });
 
-// }
+  checkDeadEnemies();
+}
 
 // function to check if the enemy died and remove it from array
 function checkDeadEnemies() {
@@ -258,6 +265,7 @@ function updateGame() {
   captain.newPos();
   captain.update1();
   // captain.update2();
+  // fightEnemies();
   checkGameOver();
 }
 
