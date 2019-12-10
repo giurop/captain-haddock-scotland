@@ -1,6 +1,9 @@
 // creating array to store enemies info
 let enemiesArray = [];
 
+// creating array to store whiskies
+let whiskiesArray = [];
+
 // object setting the main settings of the game
 const generalSetting = {
   canvas: document.createElement('canvas'),
@@ -67,6 +70,8 @@ class Captain {
     // this.lifes = 3;
     this.hitPoint = 1;
     this.isDrunk = false;
+    // this.isDrunk = true;
+    this.closenessToEnemy = 0.5;
   }
 
   newPos() {
@@ -78,7 +83,7 @@ class Captain {
     let ctx = generalSetting.context;
     let captainImage1 = new Image();
     if (this.isDrunk) {
-      // add image of drunk captain
+      captainImage1.src = './images/haddockwalkingdrunk.png';
     } else {
       captainImage1.src = './images/captainhaddockwalking2.png';
     }
@@ -90,37 +95,61 @@ class Captain {
   }
 
   top() {
-    return this.y + (this.height * 0.5);
+    return this.y;
   }
 
   right() {
-    return this.x + (this.width * 0.5);
+    return this.x + this.width;
   }
 
   bottom() {
-    return this.y + (this.height * 0.5);
+    return this.y + this.height;
   }
 
   left() {
-    return this.x + (this.width * 0.5);
+    return this.x;
   }
 
-  getDrunk() {
-    this.hitPoint += 2;
-    // or should I write true instead
-    this.isDrunk = !this.isDrunk;
+  // getDrunk() {
+  //   if (this.isDrunk) {
+  //     this.hitPoint += 2;
+      // or should I write true instead
+      // this.isDrunk = !this.isDrunk;
+    }
   }
+
+  // drunkAttack() {
+  //   if(this.isDrunk) {
+  //     let ctx = generalSetting.context;
+  //     let captainAttackImage = new Image();
+  //     captainAttackImage.src = './images/haddockwalkingdrunk.png';
+  //     captainAttackImage.onload = () => {
+  //       ctx.drawImage(captainAttackImage, this.x, this.y, captainAttackImage.width * 0.9, captainAttackImage.height * 0.9);
+  //     }
+  //     this.width = captainAttackImage.width;
+  //     this.height = captainAttackImage.height;
+  //   }
+  // }
 
   // checkLife() {
 
   // }
 
+  // fightWith(enemy) {
+  //   return !(
+  //     this.top() > enemy.bottom() ||
+  //     this.right() < enemy.left() ||
+  //     this.bottom() < enemy.top() ||
+  //     this.left() > enemy.right()
+  //   )
+  // }
+  
   fightWith(enemy) {
     return !(
-      this.top() > enemy.bottom() ||
-      this.right() < enemy.left() ||
-      this.bottom() < enemy.top() ||
-      this.left() > enemy.right()
+      enemy.top() - this.top() > this.closenessToEnemy * this.height ||
+      this.bottom() - enemy.bottom() > this.closenessToEnemy * this.height ||
+      enemy.left() - this.left() > this.closenessToEnemy * this.width ||
+      this.right() - enemy.right() > this.closenessToEnemy * this.width
     )
   }
 
@@ -154,6 +183,43 @@ class Enemies {
     }
     this.width = enemyImg.width * this.resize;
     this.height = enemyImg.height * this.resize;
+  }
+
+  top() {
+    return this.y;
+  }
+
+  right() {
+    return this.x + this.width;
+  }
+
+  bottom() {
+    return this.y + this.height;
+  }
+
+  left() {
+    return this.x;
+  }
+}
+
+// object constructor for whisky
+class Whiskies {
+  constructor(x, y, speedX, resize) {
+    this.x = x;
+    this.y = y;
+    this.speedX = speedX;
+    this.resize = resize;
+  }
+
+  update() {
+    let ctx = generalSetting.context;
+    let whiskyImg = new Image();
+    whiskyImg.src = './images/whisky.png';
+    whiskyImg.onload = () => {
+      ctx.drawImage(whiskyImg, this.x, this.y, whiskyImg.width * this.resize, whiskyImg.height * this.resize);
+    }
+    this.width = whiskyImg.width * this.resize;
+    this.height = whiskyImg.height * this.resize;
   }
 
   top() {
@@ -209,11 +275,58 @@ function updateEnemies() {
   }
 }
 
+// updating whiskies' position
+function updateWhiskies() {
+  for (let i = 0; i < whiskiesArray.length; i += 1) {
+    whiskiesArray[i].x -= whiskiesArray[i].speedX;
+    whiskiesArray[i].update();
+  }
+
+  let whiskiesPosition = [
+    {
+      speed: 15,
+      minY: 350,
+      maxY: 380,
+      enemyYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.2,
+    },
+    {
+      speed: 10,
+      minY: 380,
+      maxY: 410,
+      enemyYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.3,
+    },
+    {
+      speed: 20,
+      minY: 410,
+      maxY: 440,
+      enemyYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.4,
+    }
+  ];
+
+  if (generalSetting.frames % 200 === 0) {
+    console.log('HI WHISKY IFFFFF');
+    let x = generalSetting.canvas.width;
+    let randomWhiskyPosition = Math.floor(Math.random() * whiskiesPosition.length);
+    console.log(randomWhiskyPosition);
+
+    whiskiesArray.push(new Whiskies(x, whiskiesPosition[randomWhiskyPosition].enemyYPos(), whiskiesPosition[randomWhiskyPosition].speed, whiskiesPosition[randomWhiskyPosition].resize));
+  }
+}
+
 // function to fight the enemies
 function fightEnemies() {
   enemiesArray.map((enemy) => {
     if (captain.fightWith(enemy)) {
-      enemy.life -= 1;
+      enemy.life -= captain.hitPoint;
     }
     return enemy;
   });
@@ -228,6 +341,11 @@ function checkDeadEnemies() {
       enemiesArray.splice(i, 1);
     }
   }
+}
+
+// function to let Haddock happy and drink a whisky bottle by himself
+function getDrunk() {
+  whiskiesArray
 }
 
 // function to check if the enemies got to Tintin and Snowy
@@ -261,11 +379,11 @@ function updateGame() {
   setTintinAndSnowy.update();
   generalSetting.score();
   checkDeadEnemies();
+  updateWhiskies();
   updateEnemies();
   captain.newPos();
   captain.update1();
   // captain.update2();
-  // fightEnemies();
   checkGameOver();
 }
 
@@ -311,7 +429,11 @@ document.onkeydown = function (key) {
       }
       break;
       case 32:
-        fightEnemies();
+        if (captain.isDrunk) {
+
+        } else {
+          fightEnemies();
+        }
         break;
     default:
       break;
