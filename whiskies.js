@@ -15,12 +15,11 @@ class Whiskies {
   }
 
   update() {
-    let ctx = generalSetting.context;
     let whiskyImg = new Image();
     whiskyImg.src = './images/whisky.png';
-    whiskyImg.onload = () => {
-      ctx.drawImage(whiskyImg, this.x, this.y, whiskyImg.width * this.resize, whiskyImg.height * this.resize);
-    }
+    // whiskyImg.onload = () => {
+      context.drawImage(whiskyImg, this.x, this.y, whiskyImg.width * this.resize, whiskyImg.height * this.resize);
+    // }
     this.width = whiskyImg.width * this.resize;
     this.height = whiskyImg.height * this.resize;
   }
