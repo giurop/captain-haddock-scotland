@@ -17,41 +17,42 @@
     <div class="game-intro container">
       <div class="row">
         <div class="col-md-8">
-          <h1 class="h1 display-4">
+          <h1 class="h1 display-4 mt-3">
             <small class="text-muted mt-5">Captain Haddock <br>Adventures in</small><br>
             Scotland<br>
           </h1>
         </div>
-        <!-- <div class="col-md-2"> -->
-        <!-- </div> -->
         <div id="text-box" class="game-info col-md-4 mt-5 p-4">
           <div class="d-flex flex-column align-items-center">
             <!-- <div> -->
-              <p>It all started when they received a letter from Her Majesty the Queen to report that her precious crown
-                has been stolen. After a lot of searching and fighting, they finally found it in a remote island across
-                the Scottish coast, and now they are heading back to the castle to hand it in person to her. But, as
-                usual, it won't be an easy task...</p>
-                <!-- </div> -->
-                <button id="start-button" class="btn btn-secondary btn-lg mb-3">Start Game</button>
-                <div class="row align-items-center justify-content-between">
-                  <div class="column">
-                    <p class="text-center pr-4 controls">Arrows to <span class="font-weight-bold">MOVE</span></p>
-                    <p class="text-center pr-4 controls">Space to <span class="font-weight-bold">ATTACK</span></p>
-                  </div>
-                  <img id="captain-haddock" class="img-fluid pl-4" src="./images/captainhaddocknew.png" alt="Captain Haddock">
-                </div>
+            <p>It all started when they received a letter from Her Majesty the Queen to report that her precious crown
+              has been stolen. After a lot of searching and fighting, they finally found it in a remote island across
+              the Scottish coast, and now they are heading back to the castle to hand it in person to her. But, as
+              usual, it won't be an easy task...</p>
+            <!-- </div> -->
+            <button id="start-button" class="btn btn-secondary btn-lg mb-3">Start Game</button>
+            <div class="row align-items-center justify-content-between">
+              <div class="column">
+                <p class="text-center pr-4 controls">Arrows to <span class="font-weight-bold">MOVE</span></p>
+                <p class="text-center pr-4 controls">Space to <span class="font-weight-bold">ATTACK</span></p>
+              </div>
+              <img id="captain-haddock" class="img-fluid pl-4" src="./images/captainhaddocknew.png"
+                alt="Captain Haddock">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div id="game-over-page" class="d-flex flex-column align-items-center justify-content-center view vw-100 vh-100 align-middle">
-      <p class="text-center font-weight-bold" id="game-over-text">Game Over</p>
-      <button id="restart-button" class="btn btn-secondary btn-lg mt-5">Try Again</button>
+  <div id="game-over-page"
+    class="d-none flex-column align-items-center justify-content-center view vw-100 vh-100 align-middle">
+    <p class="text-center font-weight-bold" id="game-over-text">Game Over</p>
+    <button id="restart-button" class="btn btn-secondary btn-lg mt-5">Try Again</button>
   </div>
-  <div id="you-won-page" class="d-flex flex-column align-items-center justify-content-center view vw-100 vh-100 align-middle">
-      <p class="text-center font-weight-bold" id="you-won-text">You Won</p>
-      <button id="play-again-button" class="btn btn-secondary btn-lg mt-5">Play Again</button>
+  <div id="you-won-page"
+    class="d-none flex-column align-items-center justify-content-center view vw-100 vh-100 align-middle">
+    <p class="text-center font-weight-bold" id="you-won-text">You Won</p>
+    <button id="play-again-button" class="btn btn-secondary btn-lg mt-5">Play Again</button>
   </div>
   <div class="game-board"></div>
   <script src="./captain.js"></script>

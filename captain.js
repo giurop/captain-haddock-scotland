@@ -100,7 +100,7 @@ class Captain {
 
   // to alternate between images - will change the status of the walkThisWay between true and false
   alternateImage() {
-    if (!this.isDrunk) {
+    if (this.isDrunk === false) {
       this.walkThisWay = !this.walkThisWay;
     }
   }

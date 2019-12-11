@@ -4,6 +4,10 @@ const enemiesArray = [];
 // creating array to store whiskies
 const whiskiesArray = [];
 
+// creating player
+let captain = new Captain(100, 380);
+
+// ------------------------------------------GENERAL CANVAS SECTION-------------------------------------------
 // object setting the main settings of the game
 const generalSetting = {
   canvas: document.createElement('canvas'),
@@ -36,9 +40,7 @@ function clearBoard() {
   ctx.clearRect(0, 0, backgroundWidth, backgroundHeight);
 }
 
-// creating player
-let captain = new Captain(100, 380);
-
+// ------------------------------------------ENEMY SECTION---------------------------------------------
 // updating enemies' position
 function updateEnemies() {
   for (let i = 0; i < enemiesArray.length; i += 1) {
@@ -49,7 +51,7 @@ function updateEnemies() {
   generalSetting.frames += 1;
 
   // how long does it take to get the waves of attack
-  if (generalSetting.frames % 1 === 0) {
+  if (generalSetting.frames % 10 === 0) {
     // if (generalSetting.frames % 90 === 0) {
     // change here the speed of the enemies being created
     let speed1 = 15;
@@ -75,6 +77,28 @@ function updateEnemies() {
   }
 }
 
+// function to fight the enemies
+function fightEnemies() {
+  enemiesArray.map((enemy) => {
+    if (captain.fightWith(enemy)) {
+      enemy.life -= captain.hitPoint;
+    }
+    return enemy;
+  });
+
+  checkDeadEnemies();
+}
+
+// function to check if the enemy died and remove it from array
+function checkDeadEnemies() {
+  for (let i = 0; i < enemiesArray.length; i += 1) {
+    if (enemiesArray[i].life === 0) {
+      enemiesArray.splice(i, 1);
+    }
+  }
+}
+
+// ------------------------------------------WHISKY SECTION---------------------------------------------
 // updating whiskies' position
 function updateWhiskies() {
   for (let i = 0; i < whiskiesArray.length; i += 1) {
@@ -122,27 +146,6 @@ function updateWhiskies() {
   }
 }
 
-// function to fight the enemies
-function fightEnemies() {
-  enemiesArray.map((enemy) => {
-    if (captain.fightWith(enemy)) {
-      enemy.life -= captain.hitPoint;
-    }
-    return enemy;
-  });
-
-  checkDeadEnemies();
-}
-
-// function to check if the enemy died and remove it from array
-function checkDeadEnemies() {
-  for (let i = 0; i < enemiesArray.length; i += 1) {
-    if (enemiesArray[i].life === 0) {
-      enemiesArray.splice(i, 1);
-    }
-  }
-}
-
 // function to let Haddock happy and drink a whisky bottle by himself
 function checkIfDrunk() {
   whiskiesArray.map((bottle) => {
@@ -164,6 +167,8 @@ function checkEmptyBottle() {
   }
 }
 
+// ------------------------------------------END OF GAME---------------------------------------------
+
 // function to check if the enemies got to Tintin and Snowy
 function checkGameOver() {
   let ctx = generalSetting.context;
@@ -180,7 +185,9 @@ function checkGameOver() {
 
     // set the game over page to show when the game over condition is met
     let gameOverPage = document.getElementById('game-over-page');
-    gameOverPage.style.display = 'initial';
+    // gameOverPage.style.display = 'initial';
+    gameOverPage.classList.remove('d-none');
+    gameOverPage.classList.add('d-flex');
 
     // set restart button to place image in the game over page
     let restartButton = document.getElementById('restart-button');
@@ -211,7 +218,9 @@ function checkWin() {
 
     // set the you won page to show when the you won condition is met
     let youWonPage = document.getElementById('you-won-page');
-    youWonPage.style.display = 'initial';
+    // youWonPage.style.display = 'initial';
+    youWonPage.classList.remove('d-none');
+    youWonPage.classList.add('d-flex');
 
     // set restart button to place image in the you won page
     let restartButton = document.getElementById('play-again-button');
@@ -221,18 +230,16 @@ function checkWin() {
 
     // choose a image from the repertoire according to if the captain is drunk or not
     // if (captain.isDrunk) {
-      // youWonImg.src = './images/wondrunk.jpg';
+    // youWonImg.src = './images/wondrunk.jpg';
     // } else {
-      // youWonImg.src = './images/wonsober.jpg';
-      youWonImg.src = './images/youwon.png';
+    // youWonImg.src = './images/wonsober.jpg';
+    youWonImg.src = './images/youwon.png';
     // }
     generalSetting.canvas.style.display = 'none';
   }
 }
 
-// function checkCaptainIsDrunk() {
-
-// }
+// -------------------------------------START THE GAME-------------------------------------------------
 
 // function to set the game and get it started
 function startGame() {
@@ -241,25 +248,25 @@ function startGame() {
   setTintinAndSnowy.update();
   captain.update();
   let introPage = document.getElementById('intro-page');
-  introPage.style.display = "none";
-  let gameOverPage = document.getElementById('game-over-page');
-  gameOverPage.style.display = 'none';
+  introPage.style.display = 'none';
+  // let gameOverPage = document.getElementById('game-over-page');
+  // gameOverPage.style.display = 'none';
+  // gameOverPage.classList.add('d-none');
+  // gameOverPage.classList.remove('d-flex');
+  // let youWonPage = document.getElementById('you-won-page');
+  // youWonPage.classList.add('d-none');
+  // youWonPage.classList.remove('d-flex');
+  // youWonPage.style.display = 'none';
 }
 
 // function to reset the game and get it restarted
 // function restartGame() {
 // generalSetting.canvas.style.display = 'initial';
 // updateGame();
-// let gameOverPage = document.getElementById('game-over-page');
-// gameOverPage.style.display = 'none';
 // startGame();
-// clearBoard();
-// setTintinAndSnowy.update();
-// captain.update();
-// let introPage = document.getElementById('intro-page');
-// introPage.style.display = "none";
 // }
 
+// -------------------------------------UPDATE GAME-----------------------------------------------------
 // function to update everything
 function updateGame() {
   clearBoard();
@@ -276,6 +283,7 @@ function updateGame() {
   checkWin();
 }
 
+// -------------------------------------TRIGGER EVENTS-------------------------------------------------
 // when you click on the start button, start the game and set the board
 document.getElementById('start-button').onclick = function () {
   startGame();
@@ -322,11 +330,12 @@ document.onkeydown = function (key) {
       captain.alternateImage();
       break;
     case 32:
-      // if (captain.isDrunk) {
-
-      // } else {
-      fightEnemies();
-      // }
+      if (captain.isDrunk) {
+        captain.drunkAttack = true;
+        fightEnemies();
+      } else {
+        fightEnemies();
+      }
       break;
     default:
       break;
@@ -337,6 +346,7 @@ document.onkeydown = function (key) {
 document.onkeyup = function (key) {
   captain.turn = 0;
   captain.walk = 0;
+  captain.drunkAttack = false;
 };
 
 // when you click on the restart button, restart the game and reset the board
