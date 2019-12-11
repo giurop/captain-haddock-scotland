@@ -15,12 +15,11 @@ class Enemies {
   }
 
   update() {
-    let ctx = generalSetting.context;
     let enemyImg = new Image();
     enemyImg.src = './images/enemies.png';
-    enemyImg.onload = () => {
-      ctx.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
-    }
+    // enemyImg.onload = () => {
+      context.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
+    // }
     this.width = enemyImg.width * this.resize;
     this.height = enemyImg.height * this.resize;
   }

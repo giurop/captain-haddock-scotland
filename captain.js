@@ -40,32 +40,31 @@ class Captain {
   }
 
   update() {
-    let ctx = generalSetting.context;
     let captainImage = new Image();
 
     if (this.isDrunk) {
       if (this.drunkAttack) {
         captainImage.src = './images/haddockattackingdrunk.png';
-        captainImage.onload = () => {
-          ctx.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
-        };
+        // captainImage.onload = () => {
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
+        // };
       } else {
         captainImage.src = './images/haddockwalkingdrunk.png';
-        captainImage.onload = () => {
-          ctx.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
-        };
+        // captainImage.onload = () => {
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
+        // };
       }
     } else {
       if (this.walkThisWay) {
         captainImage.src = './images/captainhaddockwalking3.png';
-        captainImage.onload = () => {
-          ctx.drawImage(captainImage, this.x, this.y, captainImage.width * 0.95, captainImage.height * 0.95);
-        };
+        // captainImage.onload = () => {
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.95, captainImage.height * 0.95);
+        // };
       } else {
         captainImage.src = './images/captainhaddockwalking4.png';
-        captainImage.onload = () => {
-          ctx.drawImage(captainImage, this.x, this.y, captainImage.width * 0.8, captainImage.height * 0.8);
-        };
+        // captainImage.onload = () => {
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.8, captainImage.height * 0.8);
+        // };
       }
     }
     this.width = captainImage.width;
