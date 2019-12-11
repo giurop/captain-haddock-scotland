@@ -29,6 +29,9 @@ class Captain {
 
     // how close the captain have to be to his enemies to be able to attack them
     this.closenessToEnemy = 0.5;
+
+    // how close the captain have to be to the whisky to be able to drink it
+    this.closenessToWhisky = 0.5;
   }
 
   newPos() {
@@ -87,15 +90,21 @@ class Captain {
 
   // set a parameter - boolean, when true, sets isDrunk to true and adds up to hitPoints (more damage)
   getDrunk(whisky) {
+    console.log(whisky);
     this.isDrunk = whisky;
     if (whisky) {
-      this.hitPoint += 2;
+      console.log('drink whisky');
+      this.hitPoint = 3;
+      this.drunkPeriod();
+    } else {
+      console.log('dont drink whisky');
+      this.hitPoint = 1;
     }
   }
 
   // a period of time that takes to the captain to sober up
   drunkPeriod() {
-    // setTimeout(this.getDrunk(false), 2000);
+    setTimeout(() => this.getDrunk(false), 15000);
   }
 
   // to alternate between images - will change the status of the walkThisWay between true and false
@@ -107,11 +116,11 @@ class Captain {
 
   // when to drink the bottle of whisky -> only when the captain hides it completely from the screen
   drinkWhisky(bottle) {
-    return !(
-      this.top() > bottle.top() ||
-      this.right() < bottle.right() ||
-      this.bottom() < bottle.bottom() ||
-      this.left() > bottle.left()
+    return (
+      this.top() < bottle.bottom() &&
+      this.right() > bottle.left() &&
+      this.bottom() > bottle.top() &&
+      this.left() < bottle.right()
     )
   }
 

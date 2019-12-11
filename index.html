@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://kit.fontawesome.com/c4651d87ad.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="./style.css">
@@ -12,6 +13,7 @@
 </head>
 
 <body>
+  <div id="game-board"></div>
   <div id="intro-page" class="view vw-100 vh-100"
     style="background-image: url('./images/TintinScotland.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
     <div class="game-intro container">
@@ -22,19 +24,21 @@
             Scotland<br>
           </h1>
         </div>
-        <div id="text-box" class="game-info col-md-4 mt-5 p-4">
+        <div id="text-box" class="game-info col-md-4 mt-3 pr-3 pl-3 pt-4">
           <div class="d-flex flex-column align-items-center">
-            <!-- <div> -->
             <p>It all started when they received a letter from Her Majesty the Queen to report that her precious crown
-              has been stolen. After a lot of searching and fighting, they finally found it in a remote island across
-              the Scottish coast, and now they are heading back to the castle to hand it in person to her. But, as
-              usual, it won't be an easy task...</p>
-            <!-- </div> -->
+              has been stolen. After a lot of searching and fighting, they found it in a remote Scottish island. Now they
+              are heading back to the castle to hand back to her in person...
+            </p>
+            <p class="font-weight-bold p-3 justify-content-center"><i class="fas fa-exclamation" style="color: red;"></i> Don't let the enemies get too close to Tintin and Snowy! Also, Scottish whisky comes in handy when you could use some extra strength!</p>
             <button id="start-button" class="btn btn-secondary btn-lg mb-3">Start Game</button>
-            <div class="row align-items-center justify-content-between">
+            <div class="row align-items-center justify-content-between p-3">
               <div class="column">
-                <p class="text-center pr-4 controls">Arrows to <span class="font-weight-bold">MOVE</span></p>
-                <p class="text-center pr-4 controls">Space to <span class="font-weight-bold">ATTACK</span></p>
+                <i class="fas fa-gamepad pl-5" id="control-icon"></i>
+                <p class="text-center pr-4 controls pt-3"><i class="fas fa-arrows-alt"></i>  to <span
+                    class="font-weight-bold">MOVE</span></p>
+                <p class="text-center pr-4 controls"> <i class="far fa-window-minimize"></i>  to <span
+                    class="font-weight-bold">ATTACK</span></p>
               </div>
               <img id="captain-haddock" class="img-fluid pl-4" src="./images/captainhaddocknew.png"
                 alt="Captain Haddock">
@@ -54,7 +58,6 @@
     <p class="text-center font-weight-bold" id="you-won-text">You Won</p>
     <button id="play-again-button" class="btn btn-secondary btn-lg mt-5">Play Again</button>
   </div>
-  <div class="game-board"></div>
   <script src="./captain.js"></script>
   <script src="./enemies.js"></script>
   <script src="./whiskies.js"></script>
