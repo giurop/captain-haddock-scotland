@@ -47,7 +47,10 @@ function updateEnemies() {
   }
 
   generalSetting.frames += 1;
-  if (generalSetting.frames % 90 === 0) {
+
+  // how long does it take to get the waves of attack
+  if (generalSetting.frames % 1 === 0) {
+    // if (generalSetting.frames % 90 === 0) {
     // change here the speed of the enemies being created
     let speed1 = 15;
     let speed2 = 10;
@@ -83,7 +86,7 @@ function updateWhiskies() {
       speed: 15,
       minY: 350,
       maxY: 380,
-      enemyYPos() {
+      whiskyYPos() {
         return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
       },
       resize: 0.2,
@@ -92,7 +95,7 @@ function updateWhiskies() {
       speed: 10,
       minY: 380,
       maxY: 410,
-      enemyYPos() {
+      whiskyYPos() {
         return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
       },
       resize: 0.3,
@@ -101,20 +104,21 @@ function updateWhiskies() {
       speed: 20,
       minY: 410,
       maxY: 440,
-      enemyYPos() {
+      whiskyYPos() {
         return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
       },
       resize: 0.4,
     }
   ];
 
+  // how long does it take between waves of whiskies
   if (generalSetting.frames % 200 === 0) {
-    console.log('HI WHISKY IFFFFF');
+    // console.log('HI WHISKY IFFFFF');
     let x = generalSetting.canvas.width;
     let randomWhiskyPosition = Math.floor(Math.random() * whiskiesPosition.length);
-    console.log(randomWhiskyPosition);
+    // console.log(randomWhiskyPosition);
 
-    whiskiesArray.push(new Whiskies(x, whiskiesPosition[randomWhiskyPosition].enemyYPos(), whiskiesPosition[randomWhiskyPosition].speed, whiskiesPosition[randomWhiskyPosition].resize));
+    whiskiesArray.push(new Whiskies(x, whiskiesPosition[randomWhiskyPosition].whiskyYPos(), whiskiesPosition[randomWhiskyPosition].speed, whiskiesPosition[randomWhiskyPosition].resize));
   }
 }
 
@@ -143,6 +147,7 @@ function checkDeadEnemies() {
 function checkIfDrunk() {
   whiskiesArray.map((bottle) => {
     if (captain.drinkWhisky(bottle)) {
+      captain.getDrunk(true);
       captain.drunkPeriod();
       bottle.isEmpty = true;
     }
@@ -161,14 +166,66 @@ function checkEmptyBottle() {
 
 // function to check if the enemies got to Tintin and Snowy
 function checkGameOver() {
+  let ctx = generalSetting.context;
   let crashed = enemiesArray.some(function (enemy) {
     return setTintinAndSnowy.crashWith(enemy);
   });
 
   if (crashed) {
+    // stop moving when enemies reach Tintin
     generalSetting.stop();
+
+    // create a new element image with corresponding theme when game over is called
+    let gameOverImg = document.createElement('img');
+
+    // set the game over page to show when the game over condition is met
     let gameOverPage = document.getElementById('game-over-page');
     gameOverPage.style.display = 'initial';
+
+    // set restart button to place image in the game over page
+    let restartButton = document.getElementById('restart-button');
+
+    // set image between text and button
+    gameOverPage.insertBefore(gameOverImg, restartButton);
+
+    // choose a image from the repertoire according to if the captain is drunk or not
+    if (captain.isDrunk) {
+      gameOverImg.src = './images/gameoverdrunk.jpg';
+    } else {
+      gameOverImg.src = './images/gameoversober.jpg';
+    }
+    generalSetting.canvas.style.display = 'none';
+  }
+}
+
+// function to check if the player survived more than 800 frames
+function checkWin() {
+  if (generalSetting.frames % 800 === 0) {
+    let ctx = generalSetting.context;
+
+    // stop moving when you win
+    generalSetting.stop();
+
+    // create a new element image with corresponding theme when you won is called
+    let youWonImg = document.createElement('img');
+
+    // set the you won page to show when the you won condition is met
+    let youWonPage = document.getElementById('you-won-page');
+    youWonPage.style.display = 'initial';
+
+    // set restart button to place image in the you won page
+    let restartButton = document.getElementById('play-again-button');
+
+    // set image between text and button
+    youWonPage.insertBefore(youWonImg, restartButton);
+
+    // choose a image from the repertoire according to if the captain is drunk or not
+    // if (captain.isDrunk) {
+      // youWonImg.src = './images/wondrunk.jpg';
+    // } else {
+      // youWonImg.src = './images/wonsober.jpg';
+      youWonImg.src = './images/youwon.png';
+    // }
     generalSetting.canvas.style.display = 'none';
   }
 }
@@ -190,16 +247,18 @@ function startGame() {
 }
 
 // function to reset the game and get it restarted
-function restartGame() {
-  generalSetting.canvas.style.display = 'initial';
-  clearBoard();
-  setTintinAndSnowy.update();
-  captain.update();
-  let introPage = document.getElementById('intro-page');
-  introPage.style.display = "none";
-  let gameOverPage = document.getElementById('game-over-page');
-  gameOverPage.style.display = 'none';
-}
+// function restartGame() {
+// generalSetting.canvas.style.display = 'initial';
+// updateGame();
+// let gameOverPage = document.getElementById('game-over-page');
+// gameOverPage.style.display = 'none';
+// startGame();
+// clearBoard();
+// setTintinAndSnowy.update();
+// captain.update();
+// let introPage = document.getElementById('intro-page');
+// introPage.style.display = "none";
+// }
 
 // function to update everything
 function updateGame() {
@@ -214,6 +273,7 @@ function updateGame() {
   captain.update();
   // captain.update2();
   checkGameOver();
+  checkWin();
 }
 
 // when you click on the start button, start the game and set the board
@@ -261,13 +321,13 @@ document.onkeydown = function (key) {
       }
       captain.alternateImage();
       break;
-      // case 32:
+    case 32:
       // if (captain.isDrunk) {
 
       // } else {
-      //   fightEnemies();
+      fightEnemies();
       // }
-      // break;
+      break;
     default:
       break;
   }

@@ -3,8 +3,14 @@ class Enemies {
   constructor(x, y, speedX, resize) {
     this.x = x;
     this.y = y;
+
+    // speed in which the enemies move
     this.speedX = speedX;
+
+    // to make it more into perspective
     this.resize = resize;
+
+    // how many lives they have - how many hits they take before 'dying'
     this.life = 3;
   }
 

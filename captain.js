@@ -3,15 +3,31 @@ class Captain {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+
+    // x axis movement
     this.walk = 0;
+
+    // y axis movement
     this.turn = 0;
+
+    // toggle to change sober image while walking
     this.walkThisWay = true;
-    // this.drunkAttack = false;
+
+    // toggle to show attack image when drunk
     this.drunkAttack = false;
+    // this.drunkAttack = true;
+
+    // captain's life
     // this.lifes = 3;
+
+    // the damage the captain does on the enemies
     this.hitPoint = 1;
-    // this.isDrunk = false;
-    this.isDrunk = true;
+
+    // toggle to show drunk images
+    this.isDrunk = false;
+    // this.isDrunk = true;
+
+    // how close the captain have to be to his enemies to be able to attack them
     this.closenessToEnemy = 0.5;
   }
 
@@ -69,6 +85,7 @@ class Captain {
     return this.x;
   }
 
+  // set a parameter - boolean, when true, sets isDrunk to true and adds up to hitPoints (more damage)
   getDrunk(whisky) {
     this.isDrunk = whisky;
     if (whisky) {
@@ -76,20 +93,19 @@ class Captain {
     }
   }
 
+  // a period of time that takes to the captain to sober up
   drunkPeriod() {
-    setTimeout(this.getDrunk(false), 2000);
+    // setTimeout(this.getDrunk(false), 2000);
   }
 
+  // to alternate between images - will change the status of the walkThisWay between true and false
   alternateImage() {
     if (!this.isDrunk) {
       this.walkThisWay = !this.walkThisWay;
     }
   }
 
-  // checkLife() {
-
-  // }
-
+  // when to drink the bottle of whisky -> only when the captain hides it completely from the screen
   drinkWhisky(bottle) {
     return !(
       this.top() > bottle.top() ||
@@ -99,6 +115,7 @@ class Captain {
     )
   }
 
+  // when fighting the enemies how to know if they are close enough to hit
   fightWith(enemy) {
     return !(
       enemy.top() - this.top() > this.closenessToEnemy * this.height ||
@@ -107,4 +124,8 @@ class Captain {
       this.right() - enemy.right() > this.closenessToEnemy * this.width
     )
   }
+
+  // checkLife() {
+
+  // }
 }

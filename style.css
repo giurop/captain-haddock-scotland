@@ -13,6 +13,10 @@ body {
   font-family: 'Permanent Marker';
 }
 
+.controls {
+  font-size: 20px;
+}
+
 #captain-haddock {
   /* width: 20%; */
 }
@@ -34,6 +38,16 @@ canvas {
   display: none;
 }
 
-#game-over {
+#game-over-text {
+  font-size: 90px;
+}
+
+#you-won-page {
+  background-color:gray;
+  background-position: center center;
+  display: none;
+}
+
+#you-won-text {
   font-size: 90px;
 }

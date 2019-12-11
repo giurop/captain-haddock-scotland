@@ -3,8 +3,14 @@ class Whiskies {
   constructor(x, y, speedX, resize) {
     this.x = x;
     this.y = y;
+
+    // speed of movement
     this.speedX = speedX;
+
+    // to resize the image to make it more into perspective
     this.resize = resize;
+
+    // toggle to know when it was drunk and is removed from the array
     this.isEmpty = false;
   }
 
