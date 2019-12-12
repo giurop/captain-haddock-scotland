@@ -13,12 +13,15 @@ class Captain {
     // toggle to change sober image while walking
     this.walkThisWay = true;
 
+    // toggle to change sober image while walking backwards
+    this.isWalkingForward = true;
+
     // toggle to show attack image when drunk
     this.drunkAttack = false;
     // this.drunkAttack = true;
 
     // captain's life
-    // this.lifes = 3;
+    this.lives = 3;
 
     // the damage the captain does on the enemies
     this.hitPoint = 1;
@@ -44,27 +47,39 @@ class Captain {
 
     if (this.isDrunk) {
       if (this.drunkAttack) {
-        captainImage.src = './images/haddockattackingdrunk.png';
-        // captainImage.onload = () => {
+        if (this.isWalkingForward) {
+          captainImage.src = './images/haddockattackingdrunk.png';
           context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
-        // };
+        } else {
+          captainImage.src = './images/haddockattackingdrunk-back.png';
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
+        }
       } else {
-        captainImage.src = './images/haddockwalkingdrunk.png';
-        // captainImage.onload = () => {
+        if (this.isWalkingForward) {
+          captainImage.src = './images/haddockwalkingdrunk.png';
           context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
-        // };
+        } else {
+          captainImage.src = './images/haddockwalkingdrunk-back.png';
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.9, captainImage.height * 0.9);
+        }
       }
     } else {
       if (this.walkThisWay) {
-        captainImage.src = './images/captainhaddockwalking3.png';
-        // captainImage.onload = () => {
+        if (this.isWalkingForward) {
+          captainImage.src = './images/captainhaddockwalking3.png';
           context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.95, captainImage.height * 0.95);
-        // };
+        } else {
+          captainImage.src = './images/captainhaddockwalking3-back.png';
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.95, captainImage.height * 0.95);
+        }
       } else {
-        captainImage.src = './images/captainhaddockwalking4.png';
-        // captainImage.onload = () => {
+        if (this.isWalkingForward) {
+          captainImage.src = './images/captainhaddockwalking4.png';
           context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.8, captainImage.height * 0.8);
-        // };
+        } else {
+          captainImage.src = './images/captainhaddockwalking4-back.png';
+          context.drawImage(captainImage, this.x, this.y, captainImage.width * 0.8, captainImage.height * 0.8);
+        }
       }
     }
     this.width = captainImage.width;
@@ -113,13 +128,23 @@ class Captain {
     }
   }
 
-  // when to drink the bottle of whisky -> only when the captain hides it completely from the screen
+  // when to drink the bottle of whisky -> only when the captain gets to it
   drinkWhisky(bottle) {
     return (
       this.top() < bottle.bottom() &&
       this.right() > bottle.left() &&
       this.bottom() > bottle.top() &&
       this.left() < bottle.right()
+    )
+  }
+
+  // when to consider you met Nessie -> only when the captain touches it
+  metCreature(nessie) {
+    return (
+      this.top() < nessie.bottom() &&
+      this.right() > nessie.left() &&
+      this.bottom() > nessie.top() &&
+      this.left() < nessie.right()
     )
   }
 

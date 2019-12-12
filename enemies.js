@@ -17,9 +17,7 @@ class Enemies {
   update() {
     let enemyImg = new Image();
     enemyImg.src = './images/enemies.png';
-    // enemyImg.onload = () => {
-      context.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
-    // }
+    context.drawImage(enemyImg, this.x, this.y, enemyImg.width * this.resize, enemyImg.height * this.resize);
     this.width = enemyImg.width * this.resize;
     this.height = enemyImg.height * this.resize;
   }

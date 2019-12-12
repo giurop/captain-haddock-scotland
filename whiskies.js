@@ -17,9 +17,7 @@ class Whiskies {
   update() {
     let whiskyImg = new Image();
     whiskyImg.src = './images/whisky.png';
-    // whiskyImg.onload = () => {
       context.drawImage(whiskyImg, this.x, this.y, whiskyImg.width * this.resize, whiskyImg.height * this.resize);
-    // }
     this.width = whiskyImg.width * this.resize;
     this.height = whiskyImg.height * this.resize;
   }
