@@ -75,12 +75,12 @@ function updateEnemies() {
 
   frames += 1;
 
-  // how long does it take to get the waves of attack (2s)
-  if (frames % 120 === 0) {
+  // how long does it take to get the waves of attack (every 2s) but the first starts at 1s
+  if (frames === 60 || frames % 180 === 0) {
     // change here the speed of the enemies being created
-    let speed1 = 2;
-    let speed2 = 3;
-    let speed3 = 4;
+    let speed1 = 1;
+    let speed2 = 2;
+    let speed3 = 3;
 
     let x = canvas.width;
 
@@ -131,7 +131,7 @@ function updateWhiskies() {
   }
 
   let whiskiesPosition = [{
-      speed: 7,
+      speed: 3,
       minY: 350,
       maxY: 380,
       whiskyYPos() {
@@ -140,7 +140,7 @@ function updateWhiskies() {
       resize: 0.15,
     },
     {
-      speed: 6,
+      speed: 5,
       minY: 380,
       maxY: 410,
       whiskyYPos() {
@@ -149,7 +149,7 @@ function updateWhiskies() {
       resize: 0.15,
     },
     {
-      speed: 5,
+      speed: 4,
       minY: 410,
       maxY: 440,
       whiskyYPos() {
@@ -238,7 +238,9 @@ function updateNessies() {
 function checkIfMetNessie() {
   nessiesArray.map((nessie) => {
     if (captain.metCreature(nessie)) {
-      captain.lives += nessie.giveHearts;
+      if (captain.lives < 3) {
+        captain.lives += nessie.giveHearts;
+      }
       nessie.hasMet = true;
     }
     return nessie;
@@ -413,16 +415,17 @@ function updateGame() {
 // when you click on the start button, start the game and set the board
 document.getElementById('start-button').onclick = function () {
   startGame();
-  bagpipeSong.play();
+  // bagpipeSong.play();
 }
 
 // when you press a key from the list, do something
 document.onkeydown = function (key) {
   let steps = 5;
+
   switch (key.keyCode) {
     // left
     case 37:
-      if (captain.x >= 20) {
+      if (captain.x - captain.walk >= 30) {
         captain.walk -= steps;
         captain.isWalkingForward = false;
       } else {
@@ -432,7 +435,7 @@ document.onkeydown = function (key) {
       break;
       // top
     case 38:
-      if (captain.y >= 330) {
+      if (captain.y - captain.turn >= 330) {
         captain.turn -= steps;
       } else {
         captain.turn = 0;
@@ -441,7 +444,7 @@ document.onkeydown = function (key) {
       break;
       // right
     case 39:
-      if (captain.x <= 1000) {
+      if (captain.x + captain.width + captain.walk <= canvas.width) {
         captain.walk += steps;
         captain.isWalkingForward = true;
       } else {
@@ -451,7 +454,7 @@ document.onkeydown = function (key) {
       break;
       // down
     case 40:
-      if (captain.y <= 500) {
+      if (captain.y + captain.height + captain.turn <= canvas.height) {
         captain.turn += steps;
       } else {
         captain.turn = 0;

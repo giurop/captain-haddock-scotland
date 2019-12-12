@@ -35,6 +35,7 @@ class Captain {
 
     // how close the captain have to be to the whisky to be able to drink it
     this.closenessToWhisky = 0.5;
+
   }
 
   newPos() {
@@ -105,6 +106,7 @@ class Captain {
   // set a parameter - boolean, when true, sets isDrunk to true and adds up to hitPoints (more damage)
   getDrunk(whisky) {
     console.log(whisky);
+
     this.isDrunk = whisky;
     if (whisky) {
       console.log('drink whisky');
