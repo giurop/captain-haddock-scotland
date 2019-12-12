@@ -16,15 +16,15 @@
   <div id="game-board"></div>
   <div id="intro-page" class="view vw-100 vh-100"
     style="background-image: url('./images/TintinScotland.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
-    <div class="game-intro container">
-      <div class="row">
+    <div class="game-intro container-fluid">
+      <div class="row pt-4">
         <div class="col-md-7">
-          <h1 class="h1 display-4 mt-3">
+          <h1 class="h1 display-4 mt-3 text-center">
             <small class="text-muted mt-5">Captain Haddock <br>Adventures in</small><br>
             Scotland<br>
           </h1>
         </div>
-        <div class="game-info col-md-5 mt-1 pr-3 pl-3 pt-4 pb-3">
+        <div class="game-info col-md-5 mt-1 px-3 pt-4 pb-3 text-secondary">
           <div id="text-box-story" class="d-flex flex-column align-items-center p-3">
             <p class="text-center">The journey to this faraway land has started when Capitain Haddock and Tintin
               received a letter from Her Majesty the Queen
@@ -34,29 +34,22 @@
               they
               are heading back to the castle to hand back to her in person...
             </p>
-            <button id="game-rules-btn" class="pt-1 pb-1 pl-3 pr-3">Game Rules</button>
+            <button id="game-rules-btn" class="py-1 px-3 btn btn-info">Game Rules</button>
           </div>
           <div id="text-box-rules" class="d-none flex-column align-items-center p-4">
-            <!-- <div id="title-btn-rules" class="d-flex flex-row"> -->
-              <h2 class="h2">Game Rules</h2>
-              <button id="game-story-btn" class="pt-1 pb-1 pl-2 pr-2 position-absolute">Back to Story</button>
-            <!-- </div> -->
-            <p class="font-weight-bold pr-3 pl-3 pt-1 justify-content-center"><i class="fas fa-exclamation"
-                style="color: red;"></i> Don't let the enemies get too close to Tintin and Snowy!</p>
-            <p>Scottish whisky comes in handy when you could use some extra strength! Look out for the waters,
-              they
-              are
-              not good for your health and may cause you some damage. If you are lucky enough to spot Nessie, she
-              is
-              a
-              good friend and may give you a heart.</p>
+            <h2 class="h2">Game Rules</h2>
+            <button id="game-story-btn" class="p-2 position-absolute btn btn-outline-info">Back to Story</button>
+            <p>Scottish whisky comes in handy when you could use some extra strength! Look out for the water,
+              it's not good for your health and will cause you some damage. Also, if you are lucky enough to spot Nessie, she is a sweetpie and will give you a heart.</p>
+            <p class="font-weight-bold pr-3 pl-3 pt-1 justify-content-center"><i class="fas fa-exclamation text-danger mr-1"
+                ></i> Just don't let the enemies get too close to Tintin and Snowy!</p>
             <button id="start-button" class="btn btn-secondary btn-lg mb-3">Start Game</button>
-            <div class="row align-items-center justify-content-between p-1">
-              <div class="column">
-                <i class="fas fa-gamepad pl-5" id="control-icon"></i>
-                <p class="text-center pr-4 controls pt-3"><i class="fas fa-arrows-alt"></i> to <span
+            <div class="row align-items-center justify-content-between p-1 text-dark">
+              <div class="d-flex flex-column">
+                <i class="fas fa-gamepad align-self-center" id="control-icon"></i>
+                <p class="pr-4 controls pt-3 mb-2"><i class="fas fa-arrows-alt mr-2"></i> to <span
                     class="font-weight-bold">MOVE</span></p>
-                <p class="text-center pr-4 controls"> <i class="far fa-window-minimize"></i> to <span
+                <p class="text-center pr-4 controls my-0"> <i class="far fa-window-minimize mr-2"></i> to <span
                     class="font-weight-bold">ATTACK</span></p>
               </div>
               <img id="captain-haddock" class="img-fluid pl-3" src="./images/captainhaddocknew.png"

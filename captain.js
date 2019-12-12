@@ -20,7 +20,6 @@ class Captain {
 
     // toggle to show attack image when drunk
     this.drunkAttack = false;
-    // this.drunkAttack = true;
 
     // captain's life
     this.lives = 3;
@@ -107,26 +106,22 @@ class Captain {
 
   // set a parameter - boolean, when true, sets isDrunk to true and adds up to hitPoints (more damage)
   getDrunk(whisky) {
-    console.log(whisky);
 
     if (this.isDrunk === true) {
-      console.log('giulia');
       clearTimeout(setTimeOutId);
     }
     this.isDrunk = whisky;
     if (whisky) {
-      console.log('drink whisky');
       this.hitPoint = 3;
       this.drunkPeriod();
     } else {
-      console.log('dont drink whisky');
       this.hitPoint = 1;
     }
   }
 
   // a period of time that takes to the captain to sober up
   drunkPeriod() {
-    setTimeOutId = setTimeout(() => this.getDrunk(false), 15000);
+    setTimeOutId = setTimeout(() => this.getDrunk(false), 8000);
   }
 
   // to alternate between images - will change the status of the walkThisWay between true and false
@@ -175,8 +170,4 @@ class Captain {
       this.right() - enemy.right() > this.closenessToEnemy * this.width
     )
   }
-
-  // checkLife() {
-
-  // }
 }

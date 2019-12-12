@@ -168,8 +168,8 @@ function updateWhiskies() {
     }
   ];
 
-  // how long does it take between waves of whiskies (15s)
-  if (frames % 900 === 0) {
+  // how long does it take between waves of whiskies (10s)
+  if (frames % 600 === 0) {
     let x = canvas.width;
     let randomWhiskyPosition = Math.floor(Math.random() * whiskiesPosition.length);
 
@@ -283,7 +283,7 @@ function updateWaters() {
       resize: 0.15,
     },
     {
-      speed: 4,
+      speed: 3,
       minY: 400,
       maxY: 420,
       waterYPos() {
@@ -292,7 +292,7 @@ function updateWaters() {
       resize: 0.15,
     },
     {
-      speed: 3,
+      speed: 1,
       minY: 420,
       maxY: 440,
       waterYPos() {
@@ -302,8 +302,8 @@ function updateWaters() {
     }
   ];
 
-  // how long does it take between waves of waters (2s 120)
-  if (frames % 90 === 0) {
+  // how long does it take between waves of waters (2s)
+  if (frames % 120 === 0) {
     let x = canvas.width;
     let randomWaterPosition = Math.floor(Math.random() * watersPosition.length);
 
@@ -344,6 +344,7 @@ function checkGameOver() {
   let captainDead = (captain.lives === 0);
 
   if (crashed || captainDead) {
+    console.log('agua');
     window.cancelAnimationFrame(requestId);
 
     // create a new element image with corresponding theme when game over is called
@@ -378,7 +379,7 @@ function checkGameOver() {
   }
 }
 
-// function to check if the player survived more than 30s
+// function to check if the player survived more than 30s (1800)
 function checkWin() {
   if (frames % 1800 === 0) {
 
@@ -396,7 +397,10 @@ function checkWin() {
     let restartButton = document.getElementById('play-again-button');
 
     // set image between text and button
-    youWonPage.insertBefore(youWonImg, restartButton);
+
+    if (youWonPage.getElementsByTagName('img').length === 0) {
+      youWonPage.insertBefore(youWonImg, restartButton);
+    }
 
     // set text with score
     let score = document.getElementsByClassName('score');
@@ -430,15 +434,20 @@ function startGame() {
 
 function restartGame() {
 
-  console.log('giulia hey ho');
+  // reset score
+  frames = 0;
+
   if (canvas.style.display === 'none') {
+    console.log('aguacanvas');
     canvas.style.display = 'initial';
   }
   if (gameOverPage.classList.contains('d-flex')) {
+    // console.log('aguagameover');
     gameOverPage.classList.add('d-none');
     gameOverPage.classList.remove('d-flex');
-    
+
   } else if (youWonPage.classList.contains('d-flex')) {
+    console.log('aguayouwon');
     youWonPage.classList.add('d-none');
     youWonPage.classList.remove('d-flex');
   }
@@ -447,15 +456,13 @@ function restartGame() {
   captain.x = 100;
   captain.y = 380;
   captain.isDrunk = false;
+  captain.lives = 3;
 
   // get arrays empty
   enemiesArray = [];
   whiskiesArray = [];
   nessiesArray = [];
-
-  // reset score
-  frames = 0;
-
+  watersArray = [];
 
   // reset the board
   window.requestAnimationFrame(updateGame);
@@ -465,7 +472,6 @@ function restartGame() {
 // -------------------------------------UPDATE GAME-----------------------------------------------------
 // function to update everything
 function updateGame() {
-  // console.log(captain.lives);
   clearBoard();
   setTintinAndSnowy.update();
   generalSetting.score();
@@ -501,7 +507,7 @@ document.onkeydown = function (key) {
   switch (key.keyCode) {
     // left
     case 37:
-      if (captain.x - captain.walk >= 30) {
+      if (captain.x - captain.walk > 30) {
         captain.walk -= steps;
         captain.isWalkingForward = false;
       } else {
@@ -512,7 +518,7 @@ document.onkeydown = function (key) {
       break;
       // top
     case 38:
-      if (captain.y - captain.turn >= 330) {
+      if (captain.y - captain.turn > canvas.height * 0.55) {
         captain.turn -= steps;
       } else {
         captain.turn = 0;
@@ -521,7 +527,7 @@ document.onkeydown = function (key) {
       break;
       // right
     case 39:
-      if (captain.x + captain.width + captain.walk <= canvas.width) {
+      if (captain.x + captain.width + captain.walk < canvas.width) {
         captain.walk += steps;
         captain.isWalkingForward = true;
       } else {
@@ -532,7 +538,7 @@ document.onkeydown = function (key) {
       break;
       // down
     case 40:
-      if (captain.y + captain.height + captain.turn <= canvas.height) {
+      if (captain.y + captain.height + captain.turn < canvas.height) {
         captain.turn += steps;
       } else {
         captain.y = canvas.height - (captain.height * 0.8);

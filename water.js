@@ -16,8 +16,6 @@ class Water {
     // how many lives it will take from the captain
     this.takeHearts = 1;
 
-    // check if has met the captain
-    // this.hasMet = false;
   }
 
   update() {

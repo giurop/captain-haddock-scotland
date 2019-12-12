@@ -7,6 +7,7 @@
 
 body {
   font-family: 'IM Fell English SC';
+  overflow: hidden;
 }
 
 .h1 {
@@ -76,4 +77,12 @@ canvas {
 #game-story-btn {
   font-size: 13px;
   right: 35px;
+}
+
+#score-game-over {
+  margin-top: -40px;
+}
+
+#score-you-won {
+  margin-top: -40px;
 }
