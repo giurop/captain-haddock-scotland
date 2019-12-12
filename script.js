@@ -1,11 +1,11 @@
 // creating array to store enemies info
-const enemiesArray = [];
+let enemiesArray = [];
 
 // creating array to store whiskies
-const whiskiesArray = [];
+let whiskiesArray = [];
 
 // creating array to store nessies
-const nessiesArray = [];
+let nessiesArray = [];
 
 // creating player
 let captain = new Captain(100, 380);
@@ -281,14 +281,14 @@ function checkGameOver() {
     // set text with score
     let score = document.getElementById('score-game-over');
     score.innerHTML = `Score: ${points}`;
-    
+
     // choose a image from the repertoire according to if the captain is drunk or not
     if (captain.isDrunk) {
       gameOverImg.src = './images/gameoverdrunk.jpg';
     } else {
       gameOverImg.src = './images/gameoversober.png';
     }
-    
+
     // hide the canvas
     canvas.style.display = 'none';
   }
@@ -297,40 +297,40 @@ function checkGameOver() {
 // function to check if the player survived more than 30s
 function checkWin() {
   if (frames % 1800 === 0) {
-    
+
     // stop moving when you win
     window.cancelAnimationFrame(requestId);
-    
+
     // create a new element image with corresponding theme when you won is called
     let youWonImg = document.createElement('img');
-    
+
     // show youWonPage
     youWonPage.classList.remove('d-none');
     youWonPage.classList.add('d-flex');
-    
+
     // set restart button to place image in the you won page
     let restartButton = document.getElementById('play-again-button');
-    
+
     // set image between text and button
     youWonPage.insertBefore(youWonImg, restartButton);
-    
+
     // set text with score
     let score = document.getElementsByClassName('score');
     score.innerHTML = `Score: ${points}`;
-    
+
     // choose a image from the repertoire according to if the captain is drunk or not
     // if (captain.isDrunk) {
-      // youWonImg.src = './images/wondrunk.jpg';
-      // } else {
-        // youWonImg.src = './images/wonsober.jpg';
-        youWonImg.src = './images/youwon.png';
-        // }
-        
-        // hide canvas
-        canvas.style.display = 'none';
-      }
-    }
-    
+    // youWonImg.src = './images/wondrunk.jpg';
+    // } else {
+    // youWonImg.src = './images/wonsober.jpg';
+    youWonImg.src = './images/youwon.png';
+    // }
+
+    // hide canvas
+    canvas.style.display = 'none';
+  }
+}
+
 // -------------------------------------START THE GAME-------------------------------------------------
 
 // function to set the game and get it started
@@ -345,16 +345,47 @@ function startGame() {
 }
 
 function restartGame() {
+// declare images
+// let gameOverImg = gameOverPage.getElementsByTagName('img');
+// let youWonImg = youWonPage.getElementsByTagName('img');
+
+  console.log('giulia hey ho');
+  if (canvas.style.display === 'none') {
+    canvas.style.display = 'initial';
+  }
   if (gameOverPage.classList.contains('d-flex')) {
     gameOverPage.classList.add('d-none');
     gameOverPage.classList.remove('d-flex');
-  }
-  if (youWonPage.classList.contains('d-flex')) {
+
+    // reset images
+    // gameOverPage.innerHTML = '';
+    
+  } else if (youWonPage.classList.contains('d-flex')) {
     youWonPage.classList.add('d-none');
     youWonPage.classList.remove('d-flex');
+
+    // reset images
+    // youWonPage.removeChild(youWonImg);
+
   }
-  canvas.style.display = 'initial';
-  requestAnimationFrame(updateGame);
+
+  // reset the captain
+  captain.x = 100;
+  captain.y = 380;
+  captain.isDrunk = false;
+
+  // get arrays empty
+  enemiesArray = [];
+  whiskiesArray = [];
+  nessiesArray = [];
+
+  // reset score
+  frames = 0;
+
+
+  // reset the board
+  window.requestAnimationFrame(updateGame);
+
 }
 
 // -------------------------------------UPDATE GAME-----------------------------------------------------
