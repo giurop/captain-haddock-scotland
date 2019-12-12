@@ -1,3 +1,5 @@
+let setTimeOutId;
+
 // object constructor based on the Captain
 class Captain {
   constructor(x, y) {
@@ -107,6 +109,10 @@ class Captain {
   getDrunk(whisky) {
     console.log(whisky);
 
+    if (this.isDrunk === true) {
+      console.log('giulia');
+      clearTimeout(setTimeOutId);
+    }
     this.isDrunk = whisky;
     if (whisky) {
       console.log('drink whisky');
@@ -120,7 +126,7 @@ class Captain {
 
   // a period of time that takes to the captain to sober up
   drunkPeriod() {
-    setTimeout(() => this.getDrunk(false), 15000);
+    setTimeOutId = setTimeout(() => this.getDrunk(false), 15000);
   }
 
   // to alternate between images - will change the status of the walkThisWay between true and false
@@ -132,6 +138,16 @@ class Captain {
 
   // when to drink the bottle of whisky -> only when the captain gets to it
   drinkWhisky(bottle) {
+    return (
+      this.top() < bottle.bottom() &&
+      this.right() > bottle.left() &&
+      this.bottom() > bottle.top() &&
+      this.left() < bottle.right()
+    )
+  }
+
+  // when to drink the bottle of water -> only when the captain gets to it
+  drinkWater(bottle) {
     return (
       this.top() < bottle.bottom() &&
       this.right() > bottle.left() &&

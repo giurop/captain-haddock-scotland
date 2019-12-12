@@ -7,6 +7,9 @@ let whiskiesArray = [];
 // creating array to store nessies
 let nessiesArray = [];
 
+// creating array to store waters
+let watersArray = [];
+
 // creating player
 let captain = new Captain(100, 380);
 
@@ -54,6 +57,12 @@ const generalSetting = {
     context.font = '30px Arial';
     context.fillStyle = 'white';
     context.fillText('Score: ' + points, canvas.width * 0.85, canvas.height * 0.1);
+  },
+  hearts() {
+    let playerLives = ' \uf004 '.repeat(captain.lives);
+    context.font = '25px FontAwesome';
+    context.fillStyle = 'white';
+    context.fillText(playerLives, canvas.width * 0.85, canvas.height * 0.05);
   }
 }
 
@@ -256,6 +265,74 @@ function checkNessieHelped() {
   }
 }
 
+// ------------------------------------------WATER SECTION---------------------------------------------
+// updating waters' position
+function updateWaters() {
+  for (let i = 0; i < watersArray.length; i += 1) {
+    watersArray[i].x -= watersArray[i].speedX;
+    watersArray[i].update();
+  }
+
+  let watersPosition = [{
+      speed: 2,
+      minY: 380,
+      maxY: 400,
+      waterYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.15,
+    },
+    {
+      speed: 4,
+      minY: 400,
+      maxY: 420,
+      waterYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.15,
+    },
+    {
+      speed: 3,
+      minY: 420,
+      maxY: 440,
+      waterYPos() {
+        return Math.floor(Math.random() * (this.maxY - this.minY + 1) + this.minY);
+      },
+      resize: 0.2,
+    }
+  ];
+
+  // how long does it take between waves of waters (2s 120)
+  if (frames % 30 === 0) {
+    let x = canvas.width;
+    let randomWaterPosition = Math.floor(Math.random() * watersPosition.length);
+
+    watersArray.push(new Water(x, watersPosition[randomWaterPosition].waterYPos(), watersPosition[randomWaterPosition].speed, watersPosition[randomWaterPosition].resize));
+  }
+}
+
+// function to let Haddock happy and drink a whisky bottle by himself
+function checkIfDrankWater() {
+  watersArray.map((water) => {
+    if (captain.drinkWater(water)) {
+      if (captain.lives > 0) {
+        captain.lives -= water.takeHearts;
+      }
+      water.wasDrank = true;
+    }
+    return water;
+  });
+  checkFinishedWater();
+}
+
+function checkFinishedWater() {
+  for (let i = 0; i < watersArray.length; i += 1) {
+    if (watersArray[i].wasDrank) {
+      watersArray.splice(i, 1);
+    }
+  }
+}
+
 // ------------------------------------------END OF GAME---------------------------------------------
 
 // function to check if the enemies got to Tintin and Snowy
@@ -264,7 +341,9 @@ function checkGameOver() {
     return setTintinAndSnowy.crashWith(enemy);
   });
 
-  if (crashed) {
+  let captainDead = (captain.lives === 0);
+
+  if (crashed || captainDead) {
     window.cancelAnimationFrame(requestId);
 
     // create a new element image with corresponding theme when game over is called
@@ -278,7 +357,10 @@ function checkGameOver() {
     let restartButton = document.getElementById('restart-button');
 
     // set image between text and button
-    gameOverPage.insertBefore(gameOverImg, restartButton);
+
+    if (gameOverPage.getElementsByTagName('img').length === 0) {
+      gameOverPage.insertBefore(gameOverImg, restartButton);
+    }
 
     // set text with score
     let score = document.getElementById('score-game-over');
@@ -347,9 +429,6 @@ function startGame() {
 }
 
 function restartGame() {
-// declare images
-// let gameOverImg = gameOverPage.getElementsByTagName('img');
-// let youWonImg = youWonPage.getElementsByTagName('img');
 
   console.log('giulia hey ho');
   if (canvas.style.display === 'none') {
@@ -358,17 +437,10 @@ function restartGame() {
   if (gameOverPage.classList.contains('d-flex')) {
     gameOverPage.classList.add('d-none');
     gameOverPage.classList.remove('d-flex');
-
-    // reset images
-    // gameOverPage.innerHTML = '';
     
   } else if (youWonPage.classList.contains('d-flex')) {
     youWonPage.classList.add('d-none');
     youWonPage.classList.remove('d-flex');
-
-    // reset images
-    // youWonPage.removeChild(youWonImg);
-
   }
 
   // reset the captain
@@ -393,18 +465,21 @@ function restartGame() {
 // -------------------------------------UPDATE GAME-----------------------------------------------------
 // function to update everything
 function updateGame() {
+  // console.log(captain.lives);
   clearBoard();
   setTintinAndSnowy.update();
   generalSetting.score();
+  generalSetting.hearts();
   checkDeadEnemies();
   checkIfDrunk();
   checkIfMetNessie();
+  checkIfDrankWater();
   updateWhiskies();
   updateEnemies();
   updateNessies();
+  updateWaters();
   captain.newPos();
   captain.update();
-  console.log('oioioioi')
   requestId = window.requestAnimationFrame(updateGame);
   checkGameOver();
   checkWin();
@@ -429,6 +504,7 @@ document.onkeydown = function (key) {
         captain.walk -= steps;
         captain.isWalkingForward = false;
       } else {
+        captain.x = 0;
         captain.walk = 0;
       }
       captain.alternateImage();
@@ -448,6 +524,7 @@ document.onkeydown = function (key) {
         captain.walk += steps;
         captain.isWalkingForward = true;
       } else {
+        captain.x = canvas.width - captain.width;
         captain.walk = 0;
       }
       captain.alternateImage();

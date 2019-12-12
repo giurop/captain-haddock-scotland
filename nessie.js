@@ -1,4 +1,4 @@
-// object constructor for whisky
+// object constructor for nessie
 class Nessies {
   constructor(x, y, speedX, resize) {
     this.x = x;
