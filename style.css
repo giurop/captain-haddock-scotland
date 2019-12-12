@@ -31,7 +31,12 @@ canvas {
   background-size: cover;
 }
 
-#text-box {
+#text-box-story {
+  background-color: rgba(242, 236, 218, 0.75);
+  border-radius: 20px;
+}
+
+#text-box-rules {
   background-color: rgba(242, 236, 218, 0.7);
   border-radius: 20px;
 }
@@ -58,4 +63,17 @@ canvas {
 
 #control-icon {
   font-size: 40px;
+}
+
+#intro-page p {
+  font-size: 18px;
+}
+
+#game-rules-btn {
+  font-size: 20px;
+}
+
+#game-story-btn {
+  font-size: 13px;
+  right: 35px;
 }

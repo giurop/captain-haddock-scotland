@@ -37,9 +37,9 @@ bagpipeSong.loop = true;
 let points = 0;
 
 // set tintin theme song
-// let themeSong = document.createElement('audio');
-// themeSong.src = './song/The Adventures of TinTin.mp3';
-// themeSong.loop = true;
+let themeSong = document.createElement('audio');
+themeSong.src = './song/The Adventures of TinTin.mp3';
+themeSong.loop = true;
 // themeSong.autoplay = true;
 // themeSong.load();
 
@@ -84,8 +84,8 @@ function updateEnemies() {
 
   frames += 1;
 
-  // how long does it take to get the waves of attack (every 2s) but the first starts at 1s
-  if (frames === 60 || frames % 180 === 0) {
+  // how long does it take to get the waves of attack (every 4s) but the first starts at 1s
+  if (frames === 60 || frames % 240 === 0) {
     // change here the speed of the enemies being created
     let speed1 = 1;
     let speed2 = 2;
@@ -234,8 +234,8 @@ function updateNessies() {
     }
   ];
 
-  // how long does it take between waves of nessies (20s)
-  if (frames % 1200 === 0) {
+  // how long does it take between waves of nessies (15s 900)
+  if (frames % 900 === 0) {
     let x = canvas.width;
     let randomNessiePosition = Math.floor(Math.random() * nessiesPosition.length);
 
@@ -303,7 +303,7 @@ function updateWaters() {
   ];
 
   // how long does it take between waves of waters (2s 120)
-  if (frames % 30 === 0) {
+  if (frames % 90 === 0) {
     let x = canvas.width;
     let randomWaterPosition = Math.floor(Math.random() * watersPosition.length);
 
@@ -491,6 +491,7 @@ function updateGame() {
 document.getElementById('start-button').onclick = function () {
   startGame();
   // bagpipeSong.play();
+  themeSong.play();
 }
 
 // when you press a key from the list, do something
@@ -534,6 +535,7 @@ document.onkeydown = function (key) {
       if (captain.y + captain.height + captain.turn <= canvas.height) {
         captain.turn += steps;
       } else {
+        captain.y = canvas.height - (captain.height * 0.8);
         captain.turn = 0;
       }
       captain.alternateImage();
@@ -566,6 +568,26 @@ document.getElementById('restart-button').onclick = function () {
 // when you click on the restart button, restart the game and reset the board
 document.getElementById('play-again-button').onclick = function () {
   restartGame();
+}
+
+// when you click the game rules button, show the page with the rules
+document.getElementById('game-rules-btn').onclick = function () {
+  let storyTextBox = document.getElementById('text-box-story');
+  let gameRulesTextBox = document.getElementById('text-box-rules');
+  storyTextBox.classList.add('d-none');
+  storyTextBox.classList.remove('d-flex');
+  gameRulesTextBox.classList.add('d-flex');
+  gameRulesTextBox.classList.remove('d-none');
+}
+
+// when you click the game back to story button, show the page with the story again
+document.getElementById('game-story-btn').onclick = function () {
+  let storyTextBox = document.getElementById('text-box-story');
+  let gameRulesTextBox = document.getElementById('text-box-rules');
+  storyTextBox.classList.add('d-flex');
+  storyTextBox.classList.remove('d-none');
+  gameRulesTextBox.classList.add('d-none');
+  gameRulesTextBox.classList.remove('d-flex');
 }
 
 // -------------------------------------TINTIN OBJECT-------------------------------------------------
