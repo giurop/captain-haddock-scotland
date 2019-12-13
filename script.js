@@ -40,8 +40,6 @@ let points = 0;
 let themeSong = document.createElement('audio');
 themeSong.src = './song/The Adventures of TinTin.mp3';
 themeSong.loop = true;
-// themeSong.autoplay = true;
-// themeSong.load();
 
 // ------------------------------------------GENERAL CANVAS SECTION-------------------------------------------
 // object setting the main settings of the game
@@ -344,7 +342,6 @@ function checkGameOver() {
   let captainDead = (captain.lives === 0);
 
   if (crashed || captainDead) {
-    console.log('agua');
     window.cancelAnimationFrame(requestId);
 
     // create a new element image with corresponding theme when game over is called
@@ -438,16 +435,13 @@ function restartGame() {
   frames = 0;
 
   if (canvas.style.display === 'none') {
-    console.log('aguacanvas');
     canvas.style.display = 'initial';
   }
   if (gameOverPage.classList.contains('d-flex')) {
-    // console.log('aguagameover');
     gameOverPage.classList.add('d-none');
     gameOverPage.classList.remove('d-flex');
 
   } else if (youWonPage.classList.contains('d-flex')) {
-    console.log('aguayouwon');
     youWonPage.classList.add('d-none');
     youWonPage.classList.remove('d-flex');
   }
@@ -518,7 +512,7 @@ document.onkeydown = function (key) {
       break;
       // top
     case 38:
-      if (captain.y - captain.turn > canvas.height * 0.55) {
+      if (captain.y - captain.turn > canvas.height * 0.6) {
         captain.turn -= steps;
       } else {
         captain.turn = 0;
