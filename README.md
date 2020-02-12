@@ -45,9 +45,12 @@ Good luck and have fun! :smile:
 
 Feel free to contribute to this game in any way you think it could be improved!
 
+<!---
 ### 5. Credits
 fotos
 video tintin
 livros tintin
-
-### 6. License
+--->
+<!---
+### 6. License 
+--->
